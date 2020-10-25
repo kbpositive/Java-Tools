@@ -3,7 +3,7 @@ package DataStructures.Tree;
 import DataStructures.Tree.Node.Regular;
 
 public class BinarySearch {
-    Regular root;
+    public Regular root;
     static int size;
     public BinarySearch () {
         root = null;
