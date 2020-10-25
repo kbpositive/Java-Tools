@@ -14,15 +14,21 @@ public class BinarySearch {
         root = insertNode(item, root);
     }
 
-    public static void main (String[] args) {
-        BinarySearch tree = new BinarySearch();
-        tree.insert(2);
-        System.out.println(tree.root.val);
+    public void remove (int item) {
+        removeNode(item, root);
+    }
+
+    public void traversal (String order) {
+        traverseTree(root, order);
+    }
+
+    public Regular find (int item) {
+        return findNode (item, root);
     }
 
     static Regular insertNode (int item, Regular node) {
         if (node == null) {
-            return new Regular(0);
+            return new Regular(item);
         } else {
             if (item == node.val) {
                 return node;
@@ -35,5 +41,65 @@ public class BinarySearch {
             }
         }
         return node;
+    }
+
+    static Regular removeNode (int item, Regular node) {
+        if (node == null) {
+            return node;
+        } else if (node.val > item) {
+            node.left = removeNode(item, node.left);
+        } else if (node.val < item) {
+            node.right = removeNode(item, node.right);
+        } else {
+            if (node.left == null) {
+                Regular temp = node.right;
+                node = null;
+                size--;
+                return temp;
+            } else if (node.right == null) {
+                Regular temp = node.left;
+                node = null;
+                size--;
+                return temp;
+            }
+            Regular temp = node.right;
+            while (temp.left != null) {
+                temp = temp.left;
+            }
+            node.val = temp.val;
+            temp = null;
+            size--;
+        }
+        return node;
+    }
+
+    static void traverseTree (Regular node, String order) {
+        if (node != null) {
+            if (order.equals("pre")) {
+                System.out.println(node.val);
+            }
+            traverseTree(node.left, order);
+            if (order.equals("in")) {
+                System.out.println(node.val);
+            }
+            traverseTree(node.right, order);
+            if (order.equals("post")) {
+                System.out.println(node.val);
+            }
+        }
+    }
+
+    static Regular findNode (int item, Regular node) {
+        if (node == null) {
+            return null;
+        } else if (node.val != item) {
+            if (item < node.val) {
+                return findNode(item, node.left);
+            } else {
+                return findNode(item, node.right);
+            }
+        } else {
+            return node;
+        }
     }
 }
